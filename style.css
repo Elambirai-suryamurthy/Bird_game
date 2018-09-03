@@ -1,0 +1,240 @@
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: lightblue;
+    font-family: 'Press Start 2P', serif;
+    border: 10px solid green;
+}
+
+#container::before {
+    content: "";
+    bottom: 0;
+    position: fixed;
+    background: green;
+    height: 20px;
+    width: 100%;
+}
+
+.he1 {
+    font-size: 36px;
+}
+
+
+/*green floor*/
+
+#text {
+    text-align: center;
+    font-size: 1.25em;
+    border: 0px solid black;
+    width: 90%;
+    margin: auto;
+    margin-top: 10%;
+}
+
+
+/*game text*/
+
+#head::before {
+    content: "";
+    color: orange;
+    height: 13px;
+    width: 23px;
+    border-radius: 25px;
+    position: absolute;
+    box-shadow: 20px 0 #808080, 25px 0 #808080, 30px 0 #808080, 33px 0 #808080, 25px -8px, 56px 32px #F64589, -4px 32px #F64589;
+}
+
+
+/*facial features*/
+
+#head {
+    background: #808080;
+    height: 75px;
+    width: 75px;
+    border-radius: 29px;
+    z-index: 2;
+    position: absolute;
+    left: 50px;
+    bottom: 12px;
+}
+
+
+/*head*/
+
+#head::after {
+    content: "";
+    background: black;
+    height: 12px;
+    width: 12px;
+    border-radius: 4px;
+    position: absolute;
+    top: 20px;
+    left: 15px;
+    box-shadow: 32px 0;
+}
+
+
+/*eyes*/
+
+#mouth::before {
+    content: "";
+    background: black;
+    height: 20px;
+    width: 2.5px;
+    position: absolute;
+    left: 21px;
+    box-shadow: -11px 0, 11px 0;
+}
+
+
+/*black mouth lines*/
+
+#mouth {
+    background-color: white;
+    height: 20px;
+    width: 45px;
+    position: absolute;
+    top: 45px;
+    left: 15px;
+    border-radius: 5px;
+}
+
+
+/*white part of mouth*/
+
+#flames::before {
+    content: "";
+    position: absolute;
+    left: 10px;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 10px solid #E25822;
+}
+
+#flames {
+    display: none;
+    position: absolute;
+    left: 18px;
+    bottom: -8px;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 10px solid #E25822;
+}
+
+#flames::after {
+    content: "";
+    position: absolute;
+    left: 25px;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 10px solid #E25822;
+}
+
+.rocket::before {
+    content: "";
+    height: 30px;
+    width: 70px;
+    background: #999;
+    border-radius: 45% 20% 20% 45%;
+    border-top: 1px solid;
+    border-left: 1px solid;
+    border-bottom: 1px solid;
+    right: -10px;
+    position: absolute;
+}
+
+.rocket {
+    height: 30px;
+    width: 70px;
+    border-right: 10px solid red;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    bottom: 100px;
+    right: 40px;
+    position: absolute;
+    display: none;
+}
+
+.fire::before {
+    content: "";
+    box-sizing: content-box;
+    width: 20px;
+    height: 20px;
+    border: none;
+    border-radius: 80% 0 55% 50% / 55% 0 80% 50%;
+    text-overflow: clip;
+    background: yellow;
+    position: absolute;
+    top: 6px;
+    right: 6px;
+}
+
+.fire {
+    box-sizing: content-box;
+    width: 20px;
+    height: 20px;
+    border: none;
+    border-radius: 80% 0 55% 50% / 55% 0 80% 50%;
+    text-overflow: clip;
+    background: red;
+    transform: rotateZ(45deg);
+    position: absolute;
+    top: 6px;
+    right: -28px;
+    z-index: -1;
+    animation: blast-off 2s linear infinite
+}
+
+.fire::after {
+    content: "";
+    box-sizing: content-box;
+    width: 20px;
+    height: 10px !important;
+    border: none;
+    border-radius: 80% 0 55% 50% / 55% 0 80% 50%;
+    text-overflow: clip;
+    background: #add8e6;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+@keyframes blast-off {
+    0% {
+        transform: translateX(0px) rotate(45deg);
+    }
+    25% {
+        transform: translateX(5px) rotate(45deg);
+    }
+    50% {
+        transform: translateX(0px) rotate(45deg);
+    }
+    75% {
+        transform: translateX(-5px) rotate(45deg);
+    }
+    100% {
+        transform: translateX(0px) rotate(45deg);
+    }
+}
+
+.bird {
+    width: 180px;
+    height: 180px;
+}
+
+.bird1 {
+    width: 120px;
+    height: 120px;
+}

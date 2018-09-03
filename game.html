@@ -1,0 +1,337 @@
+<html>
+
+<head>
+    <title>Mygame</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <div id="container">
+        <p id="text">
+            <img class="bird" src="bird5.gif" alt="">
+            <img class="bird" src="bird2.gif" alt=""><br><br>
+
+            <img class="bird" src="bird3.gif" alt=""> &nbsp;&nbsp;<b class="he1">SAVE ME</b>&nbsp;&nbsp; <img class="bird1" src="bird2.gif" alt="">
+
+            <br><br><br><br><br> <br><br><br><br> <br><br><br><br> Press <b>'Enter'</b> to start
+        </p>
+        <div id="head">
+            <div id="flames"></div>
+            <div id="mouth"></div>
+        </div>
+
+
+
+        <div class="rocket" id="rocket1">
+            <div class="fire"></div>
+        </div>
+        <div class="rocket" id="rocket2">
+            <div class="fire"></div>
+        </div>
+        <div class="rocket" id="rocket3">
+            <div class="fire"></div>
+        </div>
+        <div class="rocket" id="rocket4">
+            <div class="fire"></div>
+        </div>
+        <!-- <embed src="mersal.mp3" autostart="true" loop="false" width="2" height="0" id="audio">
+        </embed> -->
+        <!-- <embed src="VIP.mp3" autostart="true" loop="false" width="2" height="0" id="audio">
+        </embed> -->
+        <embed src="theme.mp3" autostart="true" loop="false" width="2" height="0" id="audio">
+        </embed>
+        <!-- <embed src="singam.mp3" autostart="true" loop="false" width="2" height="0">
+        </embed> -->
+        <!-- <embed src="kathi.mp3" autostart="true" loop="false" width="2" height="0" id="audio">
+        </embed> -->
+
+    </div>
+    <script>
+        $(function() {
+            var anim_id;
+            var score = 0;
+            var highscore = 0;
+            var speed = Math.floor($(document).width() / 200);
+            var speed_inc = Math.floor($(document).width() / 600);
+
+            var container = $('#container');
+            var text = document.getElementById("text");
+
+            var player = $('#head');
+            var rocket_1 = $('#rocket1');
+            var rocket_2 = $('#rocket2');
+            var rocket_3 = $('#rocket3');
+            var rocket_4 = $('#rocket4');
+
+            var container_left;
+            var container_width;
+            var container_height;
+            var html_height;
+            var player_width = parseInt(player.width());
+            var player_height = parseInt(player.height());
+
+            var move_right = false;
+            var move_left = false;
+            var move_up = false;
+            var move_down = false;
+
+            var game_over = true;
+
+            /**************GAME KEYS********************/
+
+            $(document).on('keydown', function(e) {
+                if (game_over === true) {
+                    if (e.keyCode === 13) {
+                        game_over = false;
+
+                        //trigger animations
+                        anim_id = requestAnimationFrame(repeat);
+
+                        //set Score text
+                        text.innerHTML = "Score: 000";
+
+                        //display rockets
+                        $(".rocket").toggle();
+
+                        //take window measurements
+                        container_left = parseInt(container.css('left'));
+                        container_width = parseInt(container.width());
+                        container_height = parseInt(container.height());
+                        html_height = parseInt($("html").height());
+
+                        //set rocket positions
+                        RandomHeight(rocket_1);
+                        RandomHeight(rocket_2);
+                        RandomHeight(rocket_3);
+                        RandomHeight(rocket_4);
+                    } else if (e.keyCode === 67) {
+                        text.innerHTML =
+                            "Credits to: <br>";
+                    }
+                } else {
+                    var key = e.keyCode;
+                    if ((key === 37 || key === 100 || key === 65) && move_left === false) {
+                        move_left = requestAnimationFrame(left);
+                    }
+                    if ((key === 39 || key === 102 || key === 68) && move_right === false) {
+                        move_right = requestAnimationFrame(right);
+                    }
+                    if ((key === 38 || key === 104 || key === 87) && move_up === false) {
+                        move_up = requestAnimationFrame(up);
+                    }
+                    if ((key === 40 || key === 98 || key === 83) && move_down === false) {
+                        move_down = requestAnimationFrame(down);
+                    }
+                }
+            });
+            $(document).on('keyup', function(e) {
+                if (game_over === false) {
+                    var key = e.keyCode;
+                    if (key === 37 || key === 100 || key === 65) {
+                        cancelAnimationFrame(move_left);
+                        move_left = false;
+                    }
+                    if (key === 39 || key === 102 || key === 68) {
+                        cancelAnimationFrame(move_right);
+                        move_right = false;
+                    }
+                    if (key === 38 || key === 104 || key === 87) {
+                        cancelAnimationFrame(move_up);
+                        move_up = false;
+                    }
+                    if (key === 40 || key === 98 || key === 83) {
+                        cancelAnimationFrame(move_down);
+                        move_down = false;
+                    }
+                }
+            });
+
+            /************PLAYER MOVEMENT****************/
+
+            function left() {
+                if (game_over === false && parseInt(player.css('left')) > 0) {
+                    player.css('left', parseInt(player.css('left')) - 2 - speed);
+                    move_left = requestAnimationFrame(left);
+                }
+            }
+
+            function right() {
+                if (game_over === false && parseInt(player.css('left')) < container_width - player_width) {
+                    player.css('left', parseInt(player.css('left')) + 2 + speed);
+                    move_right = requestAnimationFrame(right);
+                }
+            }
+
+            function up() {
+                if (game_over === false && parseInt(player.css('bottom')) < html_height - player_height) {
+                    player.css('bottom', parseInt(player.css('bottom')) + 2 + speed);
+                    move_up = requestAnimationFrame(up);
+                }
+            }
+
+            function down() {
+                if (game_over === false && parseInt(player.css('bottom')) > 12) {
+                    player.css('bottom', parseInt(player.css('bottom')) - 2 - speed);
+                    move_down = requestAnimationFrame(down);
+
+                    $("#flames").style.display = "block";
+
+                }
+            }
+
+            //Animations
+            function repeat() {
+
+                if (parseInt(player.css('bottom') > 12)) {
+
+                }
+                //else if (parseInt(player.css('bottom') == 12 && $("#flames").style.display != "none")) $("#flames").toggle();
+
+
+                //collision detection
+                if (Collision(player, rocket_1) ||
+                    Collision(player, rocket_2) ||
+                    Collision(player, rocket_3) ||
+                    Collision(player, rocket_4)
+                ) {
+                    GameOver();
+                    return;
+                }
+
+                //rocket animation
+                MoveRocket(rocket_1);
+                MoveRocket(rocket_2);
+                MoveRocket(rocket_3);
+                MoveRocket(rocket_4);
+
+
+                anim_id = requestAnimationFrame(repeat);
+            }
+
+            function RandomHeight(rocket) {
+                rocket.css('bottom', parseInt(Math.random() * (html_height - 12)));
+                rocket.css('right', 30);
+            }
+
+            function MoveRocket(rocket) {
+
+                var rocket_right = parseInt(rocket.css('right'));
+
+                if (rocket_right > container_width) {
+                    //reset rocket position
+                    rocket_right = 30;
+
+                    //randomize height and assign
+                    rocket.css('bottom', parseInt(Math.random() * (html_height - 12)));
+
+                    //increase score
+                    Score();
+                }
+
+                //incrementing right property for movement
+                rocket.css('right', rocket_right + speed);
+
+            }
+
+            function Score() {
+
+                var message = "Score: ";
+                score++;
+
+                //change score digits
+                if (score < 10) message += "00" + score;
+                else if (score < 100) message += "0" + score;
+                else message = "Okay, okay, you've won already";
+
+                //every 5 point increase speed
+                if (score % 5 == 0) speed = speed + speed_inc;
+
+                text.innerHTML = message;
+            }
+
+            function GameOver() {
+                game_over = true;
+
+                // 
+
+                //display losing message
+                var message = "Thank you playing ROBouncer!<br><br>Your score was " + score;
+
+                //NOTE: these are all ifs because of the logic needed
+                //not because I'm that nooby
+                if (score == 0) message += "<br><br>(;-;)";
+                if (highscore != 0) message += "<br><br><br>Your highest score was " + highscore;
+
+                if (score > highscore) {
+
+                    if (highscore > 0) message += "<br><br><br>You beat your high score of " + highscore + "!";
+
+                    highscore = score;
+                }
+                if (score >= 100) message += "<br><br> Maybe I should've made the<br>game a little harder :/";
+                if (score > 25) message += "<br><br>You beat my highest score! :)";
+
+                message += "<br><br><br>Press 'enter' to restart"
+
+                text.innerHTML = message;
+
+                //stop rocket animation and player movement
+                cancelAnimationFrame(anim_id);
+                cancelAnimationFrame(move_right);
+                cancelAnimationFrame(move_left);
+                cancelAnimationFrame(move_up);
+                cancelAnimationFrame(move_down);
+
+                //hide rockets
+                $(".rocket").toggle();
+
+                //reset score and speed
+                score = 0;
+                speed = Math.floor($(document).width() / 200);
+
+                //reset player position
+                player.css('left', 50);
+                player.css('bottom', 12);
+            }
+
+            function Collision($div1, $div2) {
+                var x1 = $div1.offset().left;
+                var y1 = $div1.offset().top;
+                var h1 = $div1.outerHeight(true);
+                var w1 = $div1.outerWidth(true);
+                var b1 = y1 + h1;
+                var r1 = x1 + w1;
+                var x2 = $div2.offset().left;
+                var y2 = $div2.offset().top;
+                var h2 = $div2.outerHeight(true);
+                var w2 = $div2.outerWidth(true);
+                var b2 = y2 + h2;
+                var r2 = x2 + w2;
+
+                if (b1 < y2 || y1 > b2 || r1 < x2 || x1 > r2) return false;
+                return true;
+            }
+        });
+
+        //enable requestAnimationFrame on all browsers
+        //test logic on all browsers
+
+        //get rockets to come at different times
+        //add 'danger-zone'
+
+        //add downward pull by checking animation bools and add 1px per frame
+        //add robot hovering animation
+        //reduce hitboxes
+
+        //press 'c' for credits page: 
+        //person for collision logic
+    </script>
+</body>
+
+</html>
